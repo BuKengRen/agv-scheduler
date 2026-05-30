@@ -1,0 +1,172 @@
+### 查询所有AGV列表
+GET http://localhost:8080/agv/list
+Content-Type: application/json
+
+### 下面这行是分隔符，以后可以加更多接口
+
+GET http://localhost:8080/agv/xxx
+
+### 下面这行是分隔符，以后可以加更多接口
+### 测试一个会报500的接口（下周才实现，现在会500）
+PUT http://localhost:8080/agv/status/999?status=charging
+### 修改AGV状态
+PUT http://localhost:8080/agv/status/1?status=charging
+### 查询所有AGV列表
+GET http://localhost:8080/agv/list
+
+### 修改AGV电量
+PUT http://localhost:8080/agv/battery/2?battery=80
+
+### 通用修改接口（只改状态）
+PUT http://localhost:8080/agv/1
+Content-Type: application/json
+
+{
+  "status": "idle"
+}
+
+### 通用修改接口（只改电量和位置）
+PUT http://localhost:8080/agv/2
+Content-Type: application/json
+
+{
+  "battery": 90,
+  "location": "Warehouse B"
+}
+### 通用修改接口（只改电量）
+PUT http://localhost:8080/agv/1
+Content-Type: application/json
+
+{
+"battery": 100
+}
+
+### 新增 AGV
+POST http://localhost:8080/agv
+Content-Type: application/json
+
+{
+  "name": "AGV-03",
+  "status": "idle",
+  "battery": 100,
+  "location": "Warehouse C"
+}
+
+### 删除 AGV（注意 id 要存在，比如刚新增的 id 是 3）
+DELETE http://localhost:8080/agv/3
+
+### 再次查询列表，确认被删除
+GET http://localhost:8080/agv/list
+
+
+### 分页查询（第1页，每页2条）
+GET http://localhost:8080/agv/list?page=1&size=2
+
+### 按状态筛选（只查 working）
+GET http://localhost:8080/agv/list?status=working
+
+### 按电量范围筛选（50-100）
+GET http://localhost:8080/agv/list?minBattery=50&maxBattery=100
+
+### 组合条件（分页 + 状态 + 电量）
+GET http://localhost:8080/agv/list?page=1&size=5&status=idle&minBattery=80
+
+
+### 测试参数校验：电量为200（应返回400）
+POST http://localhost:8080/agv
+Content-Type: application/json
+
+{
+  "name": "AGV-03",
+  "status": "idle",
+  "battery": 200,
+  "location": "Warehouse C"
+}
+
+### 测试参数校验：状态为 flying（应返回400）
+POST http://localhost:8080/agv
+Content-Type: application/json
+
+{
+  "name": "AGV-04",
+  "status": "flying",
+  "battery": 80,
+  "location": "Warehouse D"
+}
+
+### 测试正常新增（应返回200）
+POST http://localhost:8080/agv
+Content-Type: application/json
+
+{
+  "name": "AGV-010",
+  "status": "working",
+  "battery": 85,
+  "location": "Warehouse E"
+}
+
+
+### 模糊搜索：名称包含 AGV
+GET http://localhost:8080/agv/list?name=AGV
+
+### 组合搜索：名称包含 AGV + 状态 idle
+GET http://localhost:8080/agv/list?name=AGV&status=idle
+
+### 组合搜索：名称包含 AGV + 电量范围
+GET http://localhost:8080/agv/list?name=AGV&minBattery=80&maxBattery=100
+
+
+### 登录（获取 token）
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "123456"
+}
+### 带 token 的请求
+GET http://localhost:8080/agv/list
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc3OTYwNTk3MCwiZXhwIjoxNzgwMjEwNzcwfQ.19-rwjjrdCHLg8YTDs48K_Kl9g3bfxRsbTb_A8D0BdI
+
+### 带 token 的请求
+GET http://localhost:8080/agv/list?page=1&size=10
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc3OTYxNjQ0NywiZXhwIjoxNzgwMjIxMjQ3fQ.CsP35NRZEbwN0laduu-Rv436HsOyDwGTC390-Gmfjgg
+
+
+
+### 修改AGV电量
+PUT http://localhost:8080/agv/13
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3OTgwMzM2MywiZXhwIjoxNzgwNDA4MTYzfQ.IPN7cUVXBzcaXfoZciNSxSHZ1QQ6_QbqVjk4hNFBVsI
+
+{
+  "battery": 95
+}
+
+###新增agv
+POST http://localhost:8080/agv
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc3OTcxMzM0OCwiZXhwIjoxNzgwMzE4MTQ4fQ.OSA45rhA1Yv8PJV7cfn-s_hLsNk8LO_eODZKDHyj-_o
+
+{
+"name": "AGV-MQ-02",
+"status": "idle",
+"battery": 100,
+"location": "Test Zone"
+}
+###
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+"username": "admin",
+"password": "123456"
+}
+###
+DELETE http://localhost:8080/agv/14
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3OTgwMjY4MCwiZXhwIjoxNzgwNDA3NDgwfQ.Mbn2TMOzQUFrpNokO9FFeNJ9wAz2hsJrecQcT2hSCLs
+
+
+
+
+

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AGV 实时推送</title>
+</head>
+<body>
+<h1>AGV 实时推送</h1>
+<div id="messages" style="border:1px solid #ccc; height:300px; overflow:auto"></div>
+
+<script>
+    let ws = new WebSocket("ws://localhost:8080/ws/agv");
+
+    ws.onopen = function() {
+        appendMessage("连接成功");
+    };
+
+    ws.onmessage = function(event) {
+        appendMessage("收到：" + event.data);
+    };
+
+    ws.onclose = function() {
+        appendMessage("连接关闭");
+    };
+
+    function appendMessage(msg) {
+        let div = document.getElementById("messages");
+        div.innerHTML += "<p>" + new Date().toLocaleTimeString() + " - " + msg + "</p>";
+    }
+</script>
+</body>
+</html>

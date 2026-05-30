@@ -1,0 +1,76 @@
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/agv_db?useSSL=false&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: 1234
+#  # 关闭 favicon（可选）
+##  mvc:
+##    favicon:
+##      enabled: false
+#  redis:
+#    host: localhost
+#    port: 6379
+#    timeout: 2000ms
+#    lettuce:
+#      pool:
+#        max-active: 8
+#        max-idle: 8
+#        min-idle: 0
+#    cache:
+#      type: redis
+#      redis:
+#        time-to-live: 60000  # 缓存过期时间 60 秒（单位毫秒）
+#        cache-null-values: false  # 不缓存 null 值
+#    rabbitmq:
+#      host: localhost
+#      port: 5672
+#      username: guest
+#      password: guest
+#
+#mybatis:
+#  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package: com.agv.entity
+#
+#logging:
+#  level:
+#    com.agv: DEBUG
+#    com.agv.mapper: DEBUG
+server:
+  port: ${SERVER_PORT:8080}  # 默认8080，支持环境变量覆盖
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/agv_db?useSSL=false&serverTimezone=Asia/Shanghai}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:1234}
+
+  redis:
+    host: ${SPRING_REDIS_HOST:localhost}
+    port: ${SPRING_REDIS_PORT:6379}
+    timeout: 2000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60000
+      cache-null-values: false
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.agv.entity
+
+logging:
+  level:
+    com.agv: DEBUG
+    com.agv.mapper: DEBUG
+
