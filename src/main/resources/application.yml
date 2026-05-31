@@ -36,7 +36,7 @@
 #    com.agv: DEBUG
 #    com.agv.mapper: DEBUG
 server:
-  port: ${SERVER_PORT:8080}  # 默认8080，支持环境变量覆盖
+  port: ${SERVER_PORT:9913}  # 默认8080，支持环境变量覆盖
 spring:
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/agv_db?useSSL=false&serverTimezone=Asia/Shanghai}

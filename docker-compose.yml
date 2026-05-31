@@ -46,8 +46,9 @@ services:
       rabbitmq:
         condition: service_started
     ports:
-      - "8080:8080"
+      - "18080:9913"  # 宿主机18080 → 容器9913
     environment:
+      SERVER_PORT: 9913
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/agv_db?useSSL=false&serverTimezone=Asia/Shanghai
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 1234
@@ -58,9 +59,9 @@ services:
     image: nginx:alpine
     container_name: agv-web
     ports:
-      - "8081:80"
+      - "80:80"
     volumes:
-      - D:/java_ai/agv-web/dist:/usr/share/nginx/html:ro
+      - ./agv-web/dist:/usr/share/nginx/html:ro
     depends_on:
       - agv-app
 
